@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Precios de Pasteles</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1>Precios de Pasteles</h1>
+    <form method="post" th:action="@{/cotizar}">
+      <div class="form-group">
+        <label for="sabor">Sabor:</label>
+        <select class="form-control" id="sabor" name="sabor">
+          <option value="vainilla">Vainilla</option>
+          <option value="chocolate">Chocolate</option>
+          <option value="fresa">Fresa</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="tamano">Tamaño:</label>
+        <select class="form-control" id="tamano" name="tamano">
+          <option value="chico">Chico</option>
+          <option value="mediano">Mediano</option>
+          <option value="grande">Grande</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="decoracion">Decoración:</label>
+        <select class="form-control" id="decoracion" name="decoracion">
+          <option value="sencillo">Sencillo</option>
+          <option value="elegante">Elegante</option>
+          <option value="extravagante">Extravagante</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Calcular Precio</button>
+    </form>
+    
+    <p th:text="${resultado}"></p>
+  </div>
+</body>
+</html>
+
+
