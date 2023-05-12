@@ -1,42 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package net.codejava.services;
 
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import net.codejava.entity.RegistroCliente;
-import net.codejava.entity.Usuario;
-import net.codejava.repositories.UserRepository;
+import net.codejava.entity.CalculadoraPrecio;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import net.codejava.repositories.RegistroClienteRepository;
+import net.codejava.repositories.CotizacionRepository;
 
-/**
- *
- * @author jose.jimenez07
- */
+
 @Service
 @Transactional
-public class UserService {
+public class CotizacionService {
 
         @Autowired
-	private UserRepository repo;
+	private CotizacionRepository repo;
 	
-	public List<Usuario> listAll() {
+	public List<CalculadoraPrecio> listAll() {
 		return repo.findAll();
 	}
 	
-	public void save(Usuario usuario) {
-		repo.save(usuario);
+	public void save(CalculadoraPrecio cotizacion) {
+		repo.save(cotizacion);
 	}
 	
-	public Usuario get(long id) {
+	public CalculadoraPrecio get(long id) {
 		return repo.findById(id).get();
 	}
 	

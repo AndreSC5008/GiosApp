@@ -4,17 +4,78 @@
  */
 package net.codejava.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  *
  * @author ansan
  */
+
+@Entity
 public class CalculadoraPrecio {
-    private String sabor, tamano,decoracion; 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String sabor, tamano,decoracion, precio; 
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getSabor() {
+        return sabor;
+    }
+
+    public void setSabor(String sabor) {
+        this.sabor = sabor;
+    }
+
+    public String getTamano() {
+        return tamano;
+    }
+
+    public void setTamano(String tamano) {
+        this.tamano = tamano;
+    }
+
+    public String getDecoracion() {
+        return decoracion;
+    }
+
+    public void setDecoracion(String decoracion) {
+        this.decoracion = decoracion;
+    }
+
+    public String getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(String precio) {
+        this.precio = precio;
+    }
 
     public CalculadoraPrecio(String sabor, String tamano, String decoracion) {
         this.sabor = sabor;
         this.tamano = tamano;
         this.decoracion = decoracion;
+    }
+    
+    public CalculadoraPrecio(String sabor, String tamano, String decoracion,String precio) {
+        this.sabor = sabor;
+        this.tamano = tamano;
+        this.decoracion = decoracion;
+        this.precio=precio;
+    }
+    
+     public CalculadoraPrecio() {
+        
     }
     private double calcularPrecioBase() {
         double precioBase = 0;
@@ -83,12 +144,12 @@ break;
         return precioDecoracion;
     }
     
-    public double cotizarPrecio(){
+    public String cotizarPrecio(){
         double pBase, pDecoracion;
         pBase= calcularPrecioBase();
         pDecoracion= calcularPrecioDecoracion();
-        
-        return pBase+pDecoracion; 
+        precio= String.valueOf(pBase+pDecoracion);
+        return precio; 
         
     }
 }

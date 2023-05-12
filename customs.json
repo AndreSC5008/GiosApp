@@ -4,6 +4,9 @@
         "th:text": {
             "context": "p"
         },
+        "method": {
+            "context": "a"
+        },
         "th:action": {
             "context": "form"
         }

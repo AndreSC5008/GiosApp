@@ -6,9 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import net.codejava.services.ClienteService;
 import net.codejava.entity.CalculadoraPrecio;
-import net.codejava.entity.Usuario;
 import net.codejava.entity.RegistroCliente;
-import net.codejava.services.UserService;
+import net.codejava.services.CotizacionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,20 +25,32 @@ public class AppController {
     @Autowired
     private ClienteService service;
     @Autowired
-    private UserService Uservice;
+    private CotizacionService Pservice;
 
     @RequestMapping("/")
     public String viewHomePage(Model model) {
+        
+        return "menu";
+       
+    }
+    
+    @RequestMapping("/clients")
+    public String viewClients(Model model) {
 
         List<RegistroCliente> listRegistroClientes = service.listAll();
         model.addAttribute("listClientes", listRegistroClientes);
         return "index";
        
     }
+    
+    
+    
 
     @RequestMapping("/calculadora")
-    public String viewCalculadora(){
- 
+    public String viewCalculadora(Model model){
+        List<CalculadoraPrecio> listCotizaciones = Pservice.listAll();
+        model.addAttribute("listCotizaciones", listCotizaciones);
+        model.addAttribute("precio",new CalculadoraPrecio());
         return "calculadora";
     }
     
@@ -48,8 +59,9 @@ public class AppController {
     public String costoPastel( Model model, @RequestParam("sabor") String sabor,
             @RequestParam( "tamano") String tamano,
             @RequestParam(value = "decoracion", defaultValue = "sencillo") String decoracion){
-        CalculadoraPrecio precio= new CalculadoraPrecio(sabor, tamano, decoracion);
-        double cotizacion = precio.cotizarPrecio();
+        CalculadoraPrecio precio1= new CalculadoraPrecio(sabor, tamano, decoracion);
+        String cotizacion = precio1.cotizarPrecio();
+        
         model.addAttribute("resultado",cotizacion);
         return "calculadora";
     }
@@ -60,7 +72,7 @@ public class AppController {
         RegistroCliente cliente = new RegistroCliente();
         model.addAttribute("cliente", cliente);
         
-        return "new_RegistroImc";
+        return "new_Registro";
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -68,12 +80,20 @@ public class AppController {
         
         service.save(cliente);
        
-        return "redirect:/";
+        return "redirect:/clients";
+    }
+    
+    @RequestMapping(value = "/saveCotizacion", method = RequestMethod.POST)
+    public String saveRegistroCotizacion(@ModelAttribute("precio") CalculadoraPrecio precio) {
+        
+        Pservice.save(precio);
+       
+        return "redirect:/calculadora";
     }
 
     @RequestMapping("/edit/{id}")
     public ModelAndView viewEditRegistroCliente(@PathVariable(name = "id") int id) {
-        ModelAndView mav = new ModelAndView("edit_RegistroImc");
+        ModelAndView mav = new ModelAndView("edit_Registro");
         RegistroCliente cliente = service.get(id);
         mav.addObject("cliente", cliente);
 
@@ -85,6 +105,6 @@ public class AppController {
     @RequestMapping("/delete/{id}")
     public String deletelistRegistroCliente(@PathVariable(name = "id") int id) {
         service.delete(id);
-        return "redirect:/";
+        return "redirect:/clients";
     }
 }
